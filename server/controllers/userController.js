@@ -2,7 +2,7 @@ import User from "../models/User.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import Car from "../models/Car.js";
-
+import connectDB from "../configs/db.js";
 
 // Generate JWT Token
 const generateToken = (userId)=>{
@@ -12,7 +12,11 @@ const generateToken = (userId)=>{
 
 // Register User
 export const registerUser = async (req, res)=>{
+    
     try {
+
+        await connectDB();
+
         const {name, email, password} = req.body
 
         if(!name || !email || !password || password.length < 8){
@@ -38,6 +42,9 @@ export const registerUser = async (req, res)=>{
 // Login User 
 export const loginUser = async (req, res)=>{
     try {
+
+        await connectDB();
+
         const {email, password} = req.body
         const user = await User.findOne({email})
         if(!user){
@@ -58,6 +65,9 @@ export const loginUser = async (req, res)=>{
 // Get User data using Token (JWT)
 export const getUserData = async (req, res) =>{
     try {
+
+        await connectDB();
+        
         const {user} = req;
         res.json({success: true, user})
     } catch (error) {
