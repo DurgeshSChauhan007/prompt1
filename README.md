@@ -1,4 +1,4 @@
-# 🚘 Velocity Rentals — Full Stack Car Rental Platform
+# 🚘Full Stack Car Rental Platform
 
 A premium full-stack Car Rental Platform built with modern scalable architecture, cinematic UI/UX, secure backend engineering, and motion-driven interactions.
 
