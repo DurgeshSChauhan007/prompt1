@@ -1,498 +1,298 @@
-# 🚘Full Stack Car Rental Platform
+# Modern Car Rental Platform
 
-A premium full-stack Car Rental Platform built with modern scalable architecture, cinematic UI/UX, secure backend engineering, and motion-driven interactions.
+A modern full-stack Car Rental Platform built with the MERN stack, designed to deliver a smooth, secure, and production-ready booking experience.
 
-This platform delivers a high-performance luxury vehicle booking experience using React, Framer Motion, Node.js, Prisma, PostgreSQL, JWT authentication, and production-grade deployment architecture.
-
----
-
-# ✨ Core Features
-
-## Customer Features
-
-* Premium animated landing page
-* Real-time vehicle discovery
-* Smart vehicle search and filtering
-* Vehicle detail pages with gallery and specifications
-* Multi-step booking workflow
-* Real-time booking availability
-* Secure authentication and authorization
-* User dashboard and booking history
-* Favorite vehicle management
-* Payment-ready checkout system
-* Responsive mobile-first experience
-* Contact and inquiry system
-* Email notifications and booking receipts
+The platform allows users to browse vehicles, check availability, book rentals, manage bookings, and update profiles. Vehicle owners can manage listings, handle reservations, and monitor platform analytics through a dedicated dashboard.
 
 ---
 
-## Admin Features
+# Features
 
-* Admin dashboard analytics
-* Fleet management system
-* Booking management
-* Vehicle availability management
-* Revenue tracking
-* Maintenance scheduling
-* User management
-* Role-based administrative control
+## User Features
+
+* Browse available vehicles
+* Search and filter cars
+* View detailed vehicle information
+* Check real-time availability
+* Book rental vehicles
+* View booking history
+* Manage user profile
+* Responsive experience across devices
+
+## Owner Features
+
+* Upgrade from user to owner role
+* Add and manage vehicle listings
+* Toggle vehicle availability
+* View owner dashboard analytics
+* Manage customer bookings
+* Update profile image
+
+## Platform Features
+
+* JWT authentication
+* Role-based access control
+* Secure password hashing with bcrypt
+* RESTful API architecture
+* Responsive UI design
+* Smooth Framer Motion animations
+* Optimized image handling
+* Lightweight scalable backend
 
 ---
 
-# 🧠 Tech Stack
+# Tech Stack
 
 ## Frontend
 
 * React
-* Next.js (Optional)
 * Tailwind CSS
 * Framer Motion
-* shadcn/ui
+* Axios
+* React Router
 * React Hook Form
-* Zod Validation
-
----
+* Zod
+* shadcn/ui
 
 ## Backend
 
 * Node.js
 * Express.js
-* Prisma ORM
-* JWT Authentication
-* Nodemailer
-* RESTful APIs
-
----
-
-## Database
-
-### Preferred
-
-* PostgreSQL
-
-### Alternative
-
 * MongoDB
+* Mongoose
+* JWT Authentication
+* bcrypt
+* Multer
+* Nodemailer
 
----
+## Optional Services
 
-## Optional Infrastructure
-
-* Redis
-* Docker
+* ImageKit
 * Cloudinary
+* Redis
 * AWS S3
-* CDN Integration
-* Vercel Deployment
+* Docker
+* Stripe
+* Razorpay
 
 ---
 
-# 🎬 Motion & Animation System
-
-The platform uses Framer Motion for cinematic UI interactions.
-
-## Motion Features
-
-* Smooth page transitions
-* Animated vehicle cards
-* Multi-step booking transitions
-* Modal and drawer animations
-* Staggered content reveals
-* Availability indicators
-* Skeleton loading states
-* Hover micro-interactions
-* Smooth scroll animations
-
-## Animation Principles
-
-* 60fps optimized animations
-* GPU accelerated transforms
-* Transform + opacity animations only
-* Reduced motion accessibility support
-* Zero layout shift interactions
-* Scroll performance optimization
-
----
-
-# 🏗️ Architecture Overview
-
-## Frontend Architecture
+# Project Structure
 
 ```bash
-src/
-├── app/
-├── components/
-│   ├── ui/
-│   ├── booking/
-│   ├── vehicles/
-│   ├── dashboard/
-│   ├── admin/
-│   └── animations/
-├── hooks/
-├── lib/
-├── services/
-├── store/
-├── styles/
-├── types/
-└── utils/
+car-rental-app/
+│
+├── client/                     
+│   ├── src/
+│   │   ├── components/         
+│   │   ├── pages/             
+│   │   ├── context/            
+│   │   ├── assets/             
+│   │   ├── App.js              
+│   │   ├── index.js            
+│   │
+│   └── package.json
+│
+├── server/                    
+│   ├── controllers/           
+│   ├── routes/                 
+│   ├── models/                 
+│   ├── middleware/            
+│   ├── .env                    
+│   ├── index.js                
+│   └── package.json
+│
+
 ```
 
----
+# Database Models
 
-## Backend Architecture
-
-```bash
-server/
-├── src/
-│   ├── controllers/
-│   ├── routes/
-│   ├── middleware/
-│   ├── services/
-│   ├── prisma/
-│   ├── validators/
-│   ├── utils/
-│   ├── config/
-│   ├── emails/
-│   └── jobs/
-├── Dockerfile
-├── package.json
-└── tsconfig.json
-```
-
----
-
-# 🗄️ Database Schema
+The backend uses only three core database models.
 
 ## User Model
 
-```prisma
-model User {
-  id           String   @id @default(uuid())
-  name         String
-  email        String   @unique
-  phone        String
-  passwordHash String
-  role         Role
-  createdAt    DateTime @default(now())
-  bookings     Booking[]
-}
-```
+Handles authentication and user account management.
+
+### Fields
+
+* `id`
+* `name`
+* `email`
+* `password`
+* `role`
+* `image`
+* `createdAt`
+* `updatedAt`
 
 ---
 
-## Vehicle Model
+## Car Model
 
-```prisma
-model Vehicle {
-  id             String   @id @default(uuid())
-  brand          String
-  model          String
-  year           Int
-  category       String
-  transmission   String
-  fuelType       String
-  seats          Int
-  pricePerDay    Float
-  mileage        Int
-  images         String[]
-  status         String
-  locationId     String
-  bookings       Booking[]
-}
-```
+Stores vehicle listing information.
+
+### Fields
+
+* `id`
+* `owner`
+* `brand`
+* `model`
+* `image`
+* `year`
+* `category`
+* `seating_capacity`
+* `fuel_type`
+* `transmission`
+* `pricePerDay`
+* `location`
+* `description`
+* `isAvailable`
+* `createdAt`
+* `updatedAt`
 
 ---
 
 ## Booking Model
 
-```prisma
-model Booking {
-  id              String   @id @default(uuid())
-  userId          String
-  vehicleId       String
-  pickupLocation  String
-  dropoffLocation String
-  pickupDate      DateTime
-  returnDate      DateTime
-  bookingStatus   String
-  totalAmount     Float
-  paymentStatus   String
+Handles rental reservations.
 
-  user            User     @relation(fields: [userId], references: [id])
-  vehicle         Vehicle  @relation(fields: [vehicleId], references: [id])
-}
+### Fields
+
+* `id`
+* `car`
+* `user`
+* `owner`
+* `pickupDate`
+* `returnDate`
+* `status`
+* `price`
+* `createdAt`
+* `updatedAt`
+
+---
+
+# API Routes
+
+## User Routes
+
+```bash
+POST   /api/user/register
+POST   /api/user/login
+GET    /api/user/data
+GET    /api/user/cars
+```
+
+## Owner Routes
+
+```bash
+POST   /api/owner/change-role
+POST   /api/owner/add-car
+GET    /api/owner/cars
+POST   /api/owner/toggle-car
+POST   /api/owner/delete-car
+GET    /api/owner/dashboard
+POST   /api/owner/update-image
+```
+
+## Booking Routes
+
+```bash
+POST   /api/bookings/check-availability
+POST   /api/bookings/create
+GET    /api/bookings/user
+GET    /api/bookings/owner
+POST   /api/bookings/change-status
 ```
 
 ---
 
-## Payment Model
+# Authentication
 
-```prisma
-model Payment {
-  id               String   @id @default(uuid())
-  bookingId        String
-  transactionId    String
-  paymentProvider  String
-  amount           Float
-  currency         String
-  paymentStatus    String
-}
-```
+The platform uses JWT-based authentication.
 
----
+## Features
 
-## Maintenance Model
-
-```prisma
-model Maintenance {
-  id              String   @id @default(uuid())
-  vehicleId       String
-  serviceType     String
-  serviceDate     DateTime
-  nextServiceDate DateTime
-  notes           String
-}
-```
-
----
-
-# 🔐 Authentication & Security
-
-## Authentication System
-
-* JWT Authentication
-* Refresh token support
-* Secure password hashing using bcrypt
-* Session management
+* User registration
+* User login
+* Protected routes
 * Role-based access control
-
-## User Roles
-
-* Customer
-* Admin
-* Fleet Manager
+* Secure password hashing
+* Token validation middleware
 
 ---
 
-## Security Features
+# UI & Animations
 
-### Protection Against
+Framer Motion is used throughout the application to create a premium user experience.
 
-* XSS attacks
-* Injection attacks
-* API abuse
-* Spam submissions
-* Unauthorized access
+## Included Animations
 
-### Security Stack
-
-* Helmet.js
-* Rate limiting
-* Input sanitization
-* Zod validation
-* Secure HTTP headers
-* CSRF protection
-* Environment variable isolation
+* Smooth page transitions
+* Animated car cards
+* Hover effects
+* Modal animations
+* Dashboard transitions
+* Loading skeletons
+* Staggered content reveals
 
 ---
 
-# 🚗 Vehicle Discovery System
+# Performance Optimizations
 
-## Vehicle Listing Features
+The platform is optimized for scalability and smooth performance.
 
-* Search vehicles
-* Filter by category
-* Sort by popularity
-* Sort by pricing
-* Real-time availability indicators
-* Animated hover interactions
-* Infinite scroll or pagination
-* Optimized image loading
-
----
-
-# 📅 Booking Workflow
-
-## Multi-Step Reservation Flow
-
-### Step 1
-
-* Pickup location
-* Drop-off location
-* Pickup date
-* Return date
-
-### Step 2
-
-* Vehicle selection
-* Insurance options
-* Coupon support
-* Rental add-ons
-
-### Step 3
-
-* Payment checkout
-* Booking confirmation
-* Email dispatch
-* Receipt generation
-
----
-
-# 💳 Payment Architecture
-
-Prepared for:
-
-* Stripe
-* Razorpay
-
-## Payment Features
-
-* Secure checkout
-* Webhook processing
-* Refund handling
-* Payment tracking
-* Transaction logs
-* Receipt generation
-
----
-
-# 📧 Email Notification System
-
-Automated emails are sent for:
-
-* Booking confirmations
-* Inquiry submissions
-* Rental reminders
-* Payment receipts
-
-## Email Stack
-
-* Nodemailer
-* SMTP Provider
-* Email API integration
-
----
-
-# 📊 Admin Dashboard
-
-## Admin Controls
-
-* Fleet management
-* Booking monitoring
-* User management
-* Revenue analytics
-* Vehicle maintenance schedules
-* Availability updates
-* Platform analytics
-
----
-
-# ⚡ Performance Optimization
-
-## Frontend Optimization
+## Optimization Techniques
 
 * Lazy loading
 * Dynamic imports
-* Route splitting
-* Optimized animations
-* Image optimization
-* Debounced search
-* CDN-ready assets
-
-## Backend Optimization
-
-* Prisma query optimization
-* Redis caching
-* Horizontal scaling
-* API response compression
-* Database indexing
-* Background job queues
+* Debounced searches
+* Optimized image delivery
+* Reduced bundle sizes
+* CDN-ready deployment
 
 ---
 
-# ♿ Accessibility & SEO
+# Accessibility & SEO
 
-## Accessibility
+The platform follows modern accessibility and SEO practices.
 
-* Keyboard navigation
-* Screen-reader support
-* Reduced motion accessibility
+## Included
+
 * Semantic HTML
+* Keyboard accessibility
 * ARIA labels
-* Focus management
-
-## SEO Features
-
+* Proper heading hierarchy
 * Open Graph metadata
-* Dynamic meta tags
-* Structured heading hierarchy
-* Sitemap generation
-* Fast Core Web Vitals
+* Responsive layouts
 
 ---
 
-# 🌍 Deployment
+# Environment Variables
 
-## Supported Deployment Targets
-
-* Vercel
-* Docker Containers
-* AWS
-* DigitalOcean
-* Railway
-
----
-
-# 🐳 Docker Setup
-
-## Build Container
-
-```bash
-docker build -t velocity-rentals .
-```
-
-## Run Container
-
-```bash
-docker run -p 3000:3000 velocity-rentals
-```
-
----
-
-# ⚙️ Environment Variables
-
-Create a `.env` file:
+Create a `.env` file inside the server folder.
 
 ```env
-DATABASE_URL=
-JWT_SECRET=
-JWT_REFRESH_SECRET=
-SMTP_HOST=
-SMTP_PORT=
-SMTP_USER=
-SMTP_PASSWORD=
-STRIPE_SECRET_KEY=
-RAZORPAY_KEY_ID=
-RAZORPAY_SECRET=
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
-REDIS_URL=
+PORT=5000
+MONGODB_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret
+IMAGEKIT_PUBLIC_KEY=your_public_key
+IMAGEKIT_PRIVATE_KEY=your_private_key
+IMAGEKIT_URL_ENDPOINT=your_url_endpoint
 ```
 
 ---
 
-# 🚀 Installation
+# Installation
 
 ## Clone Repository
 
 ```bash
-git clone https://github.com/your-username/velocity-rentals.git
+git clone <repository_url>
 ```
 
 ## Install Frontend Dependencies
 
 ```bash
+cd client
 npm install
 ```
 
@@ -505,80 +305,46 @@ npm install
 
 ---
 
-# ▶️ Run Development Server
+# Run Development Server
 
-## Frontend
-
-```bash
-npm run dev
-```
-
-## Backend
+## Start Backend
 
 ```bash
 npm run server
 ```
 
----
-
-# 🧪 API Architecture
-
-## REST Endpoints
-
-### Authentication
+## Start Frontend
 
 ```bash
-POST /api/auth/register
-POST /api/auth/login
-POST /api/auth/refresh
-```
-
-### Vehicles
-
-```bash
-GET /api/vehicles
-GET /api/vehicles/:id
-POST /api/vehicles
-PATCH /api/vehicles/:id
-DELETE /api/vehicles/:id
-```
-
-### Bookings
-
-```bash
-POST /api/bookings
-GET /api/bookings
-PATCH /api/bookings/:id
-```
-
-### Payments
-
-```bash
-POST /api/payments/create
-POST /api/payments/webhook
-POST /api/payments/refund
+npm run dev
 ```
 
 ---
 
-# 📱 Responsive Design
+# Deployment
 
-The platform is fully optimized for:
+The project can be deployed using:
 
-* Mobile devices
-* Tablets
-* Desktop systems
-* Ultra-wide displays
-
----
----
-
-# 📄 License
-
-MIT License
+* Vercel
+* Render
+* Railway
+* Docker
 
 ---
 
-# 👨‍💻 Author
+# Future Improvements
 
-Durgesh SIngh Chauhan
+* Stripe integration
+* Razorpay integration
+* Real-time notifications
+* Wishlist functionality
+* Review and rating system
+* Redis caching
+* Admin dashboard
+* Multi-image vehicle gallery
+
+---
+
+# Final Goal
+
+The goal of this project is to build a scalable and production-ready car rental platform that combines modern UI design, secure authentication, optimized backend architecture, and a smooth booking experience.

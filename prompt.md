@@ -1,381 +1,515 @@
-# Full Stack Car Rental Platform
+# Car Rental Platform — MERN Stack Project Prompt
 
-## Context and Role
+## Project Overview
 
-As a Full Stack Developer specializing in modern scalable web applications, you are responsible for designing and implementing a high-performance Car Rental Platform that delivers a premium booking experience using modern UI/UX principles, motion-driven interactions, and scalable backend architecture.
+Build a modern full-stack Car Rental Platform using the MERN stack that delivers a smooth, premium, and production-ready booking experience.
 
-The platform must provide a seamless vehicle browsing and reservation experience using Framer Motion for immersive animations while maintaining accessibility, responsiveness, security, and production-level engineering standards.
-
-The system must support:
-
-* Vehicle discovery
-* Real-time booking workflows
-* User authentication
-* Payment-ready architecture
-* Fleet management
-* Admin dashboard
-* Secure contact and inquiry handling
-* Scalable backend APIs
-
----
-
-# Project Overview
-
-The platform should support:
-
-* Vehicle browsing and discovery
-* Real-time booking workflows
-* User authentication and authorization
-* Secure inquiry/contact handling
-* Payment-ready architecture
-* Fleet and booking management
-* Admin dashboard
-* Scalable backend APIs
-* Responsive modern UI
-
----
-
-# Frontend
-
-Create a premium user experience with smooth interactions and motion-driven UI.
-
-## Use Framer Motion for:
-
-* Smooth page transitions
-* Animated vehicle cards
-* Modal and drawer animations
-* Booking step transitions
-* Staggered content reveals
-* Availability indicators
-* Loading skeletons
-
-## Animations should:
-
-* Feel modern and cinematic
-* Stay smooth at 60fps
-* Use performant properties like transform and opacity
-* Respect reduced motion accessibility settings
-* Avoid scroll lag or layout shifts
-
----
-
-# Website Sections
-
-# Landing Page
-
-Include:
-
-* Hero section with strong visuals
-* Featured vehicle showcase
-* Search and booking CTA
-* Popular rental destinations
-* Customer testimonials
-* Smooth scroll transitions
-
----
-
-# Vehicle Listing Page
+The platform should feel fast, responsive, and intuitive while maintaining clean architecture, reusable components, scalable APIs, and polished UI interactions.
 
 Users should be able to:
 
-* Search vehicles
-* Filter by category
-* Sort by price or popularity
-* View real-time availability
+- Browse vehicles
+- Check availability
+- Book rentals
+- Manage profiles
+- Track bookings
 
-## Each vehicle card should display:
+Owners should have access to a dedicated dashboard where they can:
 
-* Brand and model
-* Price per day
-* Fuel type
-* Transmission
-* Seat capacity
-* Rating
-* Location
-* Vehicle image
+- Manage vehicles
+- Handle bookings
+- View analytics
+- Monitor platform activity
 
-Add hover animations and smooth interactions.
+The overall experience should reflect the quality of a real-world rental platform with modern UI design, secure authentication, and seamless booking workflows.
 
 ---
 
-# Vehicle Details Page
+# Core Features
 
-Include:
+The platform should support:
 
-* Animated image gallery
-* Vehicle specifications
-* Pricing breakdown
-* Availability calendar
-* Booking widget
-* Similar vehicle recommendations
+- Vehicle browsing and discovery
+- Real-time availability checking
+- Car booking workflow
+- JWT-based authentication
+- Owner-based vehicle management
+- Booking history and management
+- User profile management
+- Dashboard analytics
+- Responsive design
+- Smooth animations and transitions
 
----
+The application should feel:
 
-# Booking Flow
-
-The booking process should feel simple and polished.
-
-Include:
-
-* Pickup and drop-off selection
-* Date and time pickers
-* Pricing summary
-* Insurance options
-* Coupon support
-* Smooth multi-step animations
-
----
-
-# User Dashboard
-
-Allow users to:
-
-* View booking history
-* Manage active rentals
-* Save favorite vehicles
-* Update profile details
-* Track payment history
+- Modern
+- Fast
+- Smooth
+- Secure
+- Lightweight
+- Scalable
+- Production-ready
 
 ---
 
-# Admin Dashboard
+# Frontend Requirements
 
-Admins and fleet managers should be able to:
+## Technologies
 
-* Manage vehicles
-* Track bookings
-* Manage users
-* Monitor revenue analytics
-* Handle maintenance schedules
-* Update vehicle availability
+- React
+- Tailwind CSS
+- Framer Motion
+- Axios
+- React Router
 
----
+## Frontend Pages & Features
 
-# Contact & Inquiry System
-
-Clicking “Get in Touch” or “Book Now” should open an animated modal form.
-
-## The form should collect:
-
-* Full name
-* Email
-* Phone number
-* Pickup location
-* Drop-off location
-
-## Optional:
-
-* Preferred vehicle
-* Additional message/request
-
-Use smooth modal entrance and exit animations with Framer Motion.
+- Responsive landing page
+- Hero section
+- Featured car showcase
+- Vehicle listing page
+- Vehicle details page
+- Booking interface
+- Owner dashboard
+- User profile page
+- Search and filtering system
+- Animated modals and drawers
+- Responsive navigation menu
 
 ---
 
-# Authentication & Security
+# UI & Animation Experience
 
-Implement secure authentication using:
+Use Framer Motion to create smooth and engaging interactions throughout the platform.
 
-* JWT authentication
-* Role-based access control
-* Secure password hashing
-* Session handling
+## Required Animations
 
-## Roles should include:
+- Smooth page transitions
+- Animated vehicle cards
+- Hover interactions
+- Booking modal animations
+- Dashboard transitions
+- Staggered content reveals
+- Loading skeletons
 
-* Customer
-* Admin
-* Fleet Manager
+## Animation Guidelines
 
-Protect the application against:
+- Use transform and opacity for performance
+- Avoid layout shifts
+- Keep animations lightweight
+- Respect reduced motion accessibility settings
 
-* XSS attacks
-* Injection attacks
-* Spam submissions
-* API abuse
+The UI should feel polished without becoming overly heavy or distracting.
 
-## Use:
+---
 
-* Helmet.js
-* Input sanitization
-* API validation
-* Rate limiting
-* Secure headers
+# Authentication System
 
-## Validate:
+Implement a secure JWT-based authentication system.
 
-* Emails
-* Phone numbers
-* Booking dates
+## Features
+
+- User registration
+- User login
+- Protected routes
+- Role-based access control
+
+## Supported Roles
+
+- user
+- owner
+
+## Security Requirements
+
+- bcrypt password hashing
+- JWT token validation
+- Authentication middleware
+- Secure route protection
 
 ---
 
 # Backend Requirements
 
-Build scalable backend APIs using:
+## Technologies
 
-* Node.js + Express
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
 
-OR
+## Backend Architecture
 
-* Next.js API routes
+- Modular folder structure
+- RESTful API design
+- Controller-based architecture
+- Middleware separation
+- Clean and maintainable codebase
 
-## Architecture should follow:
-
-* Modular structure
-* RESTful API design
-* Clean separation of concerns
-* Production-ready scalability
+The API should be scalable, readable, and easy to extend.
 
 ---
 
 # Database Models
 
-# User
-
-* id
-* name
-* email
-* phone
-* passwordHash
-* role
-* createdAt
+The platform uses only three core database models to keep the backend clean, scalable, and easy to maintain.
 
 ---
 
-# Vehicle
+# User Model
 
-* id
-* brand
-* model
-* year
-* category
-* transmission
-* fuelType
-* seats
-* pricePerDay
-* mileage
-* images
-* status
-* locationId
+The User model is responsible for handling authentication, account management, and role-based access control across the platform.
 
----
+## Fields
 
-# Booking
-
-* id
-* userId
-* vehicleId
-* pickupLocation
-* dropoffLocation
-* pickupDate
-* returnDate
-* bookingStatus
-* totalAmount
-* paymentStatus
+- `id` — Unique MongoDB ObjectId
+- `name` — Full name of the user
+- `email` — Unique email address used for authentication
+- `password` — Securely hashed password using bcrypt
+- `role` — Defines whether the account is a `user` or an `owner`
+- `image` — Profile image URL
+- `createdAt` — Account creation timestamp
+- `updatedAt` — Last account update timestamp
 
 ---
 
-# Payment
+# Car Model
 
-* id
-* bookingId
-* transactionId
-* paymentProvider
-* amount
-* currency
-* paymentStatus
+The Car model stores all vehicle listing information added by owners and used throughout the booking system.
 
----
+## Fields
 
-# Maintenance
-
-* id
-* vehicleId
-* serviceType
-* serviceDate
-* nextServiceDate
-* notes
-
----
-
-# Contact Inquiry
-
-* id
-* name
-* email
-* phone
-* message
-* createdAt
+- `id` — Unique MongoDB ObjectId
+- `owner` — Reference to the User who listed the vehicle
+- `brand` — Vehicle manufacturer name
+- `model` — Vehicle model name
+- `image` — Vehicle image URL
+- `year` — Manufacturing year
+- `category` — Vehicle category such as SUV, Sedan, Sports, etc.
+- `seating_capacity` — Total seating capacity
+- `fuel_type` — Petrol, Diesel, Electric, or Hybrid
+- `transmission` — Automatic or Manual transmission type
+- `pricePerDay` — Rental price per day
+- `location` — Vehicle pickup location
+- `description` — Detailed vehicle information
+- `isAvailable` — Availability status of the vehicle
+- `createdAt` — Vehicle listing creation timestamp
+- `updatedAt` — Last vehicle update timestamp
 
 ---
 
-# Email & Notifications
+# Booking Model
 
-Automatically send emails for:
+The Booking model manages rental reservations between customers and vehicle owners.
 
-* Booking confirmations
-* Inquiry submissions
-* Rental reminders
-* Payment receipts
+## Fields
 
-## Emails should include:
+- `id` — Unique MongoDB ObjectId
+- `car` — Reference to the booked vehicle
+- `user` — Reference to the customer who made the booking
+- `owner` — Reference to the vehicle owner
+- `pickupDate` — Rental start date
+- `returnDate` — Rental return date
+- `status` — Booking status (`pending`, `confirmed`, or `cancelled`)
+- `price` — Total booking amount
+- `createdAt` — Booking creation timestamp
+- `updatedAt` — Last booking update timestamp
 
-* Customer details
-* Booking details
-* Vehicle information
-* Timestamp
+---
 
-## Use:
+# API Architecture
 
-* Nodemailer
-* SMTP provider or email API
+The backend should follow a clean route-controller architecture with three primary route groups:
 
-Store credentials securely using environment variables.
+```bash
+/api/user
+/api/owner
+/api/bookings
+```
+
+Protected routes should use JWT middleware to validate users and attach authenticated user data to `req.user`.
+
+---
+
+# User Routes
+
+## POST `/api/user/register`
+
+Create a new user account.
+
+### Features
+
+- Validate input data
+- Hash passwords using bcrypt
+- Store users in MongoDB
+- Generate JWT tokens
+
+---
+
+## POST `/api/user/login`
+
+Authenticate users.
+
+### Features
+
+- Verify email and password
+- Compare hashed passwords
+- Generate JWT tokens
+
+---
+
+## GET `/api/user/data`
+
+Fetch authenticated user profile data.
+
+### Features
+
+- Protected route
+- Return logged-in user information
+
+---
+
+## GET `/api/user/cars`
+
+Fetch all available vehicles.
+
+### Features
+
+- Return cars where `isAvailable` is true
+- Used for frontend listing pages
+
+---
+
+# Owner Routes
+
+## POST `/api/owner/change-role`
+
+Upgrade a normal user to owner role.
+
+### Features
+
+- Change role from user to owner
+- Enable vehicle listing access
+
+---
+
+## POST `/api/owner/add-car`
+
+Create a new vehicle listing.
+
+### Features
+
+- Upload vehicle images
+- Optimize images using ImageKit
+- Convert images to WebP
+- Store vehicle data in MongoDB
+
+### Supported Fields
+
+- brand
+- model
+- category
+- transmission
+- fuel_type
+- seating_capacity
+- pricePerDay
+- location
+- description
+
+---
+
+## GET `/api/owner/cars`
+
+Fetch all vehicles added by the authenticated owner.
+
+### Features
+
+- Filter cars using `owner: req.user._id`
+
+---
+
+## POST `/api/owner/toggle-car`
+
+Toggle vehicle availability.
+
+### Features
+
+- Update `isAvailable`
+- Mark cars available or unavailable
+
+---
+
+## POST `/api/owner/delete-car`
+
+Soft delete vehicle listings.
+
+### Features
+
+- Mark cars unavailable instead of permanently deleting
+
+---
+
+## GET `/api/owner/dashboard`
+
+Fetch dashboard analytics.
+
+### Dashboard Data
+
+- Total cars
+- Total bookings
+- Pending bookings
+- Completed bookings
+- Monthly revenue
+- Recent bookings
+
+---
+
+## POST `/api/owner/update-image`
+
+Update profile images.
+
+### Features
+
+- Upload images
+- Optimize images
+- Convert images to WebP
+
+---
+
+# Booking Routes
+
+## POST `/api/bookings/check-availability`
+
+Check whether cars are available for selected dates.
+
+### Features
+
+- Prevent overlapping bookings
+- Validate booking dates
+- Filter available cars by location
+
+---
+
+## POST `/api/bookings/create`
+
+Create a booking.
+
+### Features
+
+- Validate vehicle availability
+- Calculate rental duration
+- Calculate total booking price
+- Store booking data in MongoDB
+
+### Pricing Formula
+
+```txt
+pricePerDay × totalDays
+```
+
+---
+
+## GET `/api/bookings/user`
+
+Fetch booking history for authenticated users.
+
+### Features
+
+- Populate booked car details
+- Sort latest bookings first
+
+---
+
+## GET `/api/bookings/owner`
+
+Fetch bookings related to owner-listed vehicles.
+
+### Features
+
+- Populate vehicle details
+- Populate customer details
+- Accessible only for owners
+
+---
+
+## POST `/api/bookings/change-status`
+
+Update booking status.
+
+### Supported Statuses
+
+- pending
+- confirmed
+- cancelled
+
+### Features
+
+- Only the vehicle owner can update status
+
+---
+
+# Middleware Architecture
+
+## protect Middleware
+
+Handles:
+
+- JWT verification
+- Protected routes
+- Authentication validation
+- Attaching user data to `req.user`
+
+---
+
+## upload Middleware
+
+Handles:
+
+- Multipart uploads
+- Vehicle image uploads
+- Profile image uploads
+- Multer configuration
 
 ---
 
 # Payment Architecture
 
-Prepare the platform for:
+Prepare the platform for future payment integration using:
 
-* Stripe
-* Razorpay
+- Stripe
+- Razorpay
 
-## Include support for:
+## Planned Payment Features
 
-* Secure checkout
-* Payment tracking
-* Refund handling
-* Webhook processing
+- Secure checkout
+- Payment tracking
+- Refund handling
+- Webhook processing
 
 ---
 
 # Performance & Scalability
 
-Optimize the application for production use.
+Optimize the platform for:
 
-## Focus on:
+- Fast page loading
+- Smooth animations
+- Efficient API responses
+- Optimized image delivery
+- Reduced bundle size
 
-* Fast page loads
-* Optimized API responses
-* Smooth animations
-* Efficient image loading
-* Reduced bundle sizes
+## Optimization Techniques
 
-## Use:
+- Lazy loading
+- Dynamic imports
+- Debounced searches
+- Image optimization
 
-* Lazy loading
-* Dynamic imports
-* Image optimization
-* Debounced searches
+The platform should support:
 
-The system should support:
-
-* High traffic
-* Concurrent bookings
-* CDN-ready deployments
-* Horizontal scaling
+- High traffic
+- Concurrent bookings
+- CDN-ready deployment
+- Horizontal scaling
 
 ---
 
@@ -383,78 +517,64 @@ The system should support:
 
 Ensure the platform is:
 
-* Fully responsive
-* Keyboard accessible
-* Screen-reader friendly
-* SEO optimized
+- Fully responsive
+- Keyboard accessible
+- Screen-reader friendly
+- SEO optimized
 
-## Include:
+## Include
 
-* Semantic HTML
-* ARIA labels
-* Open Graph metadata
-* Proper heading structure
+- Semantic HTML
+- ARIA labels
+- Open Graph metadata
+- Proper heading hierarchy
 
 ---
 
 # Recommended Tech Stack
 
-# Frontend
+## Frontend
 
-* React
-* Framer Motion
-* Tailwind CSS
-* shadcn/ui
-* React Hook Form
-* Zod
+- React
+- Tailwind CSS
+- Framer Motion
+- shadcn/ui
+- React Hook Form
+- Zod
 
----
+## Backend
 
-# Backend
+- Node.js
+- Express.js
+- JWT Authentication
+- Nodemailer
 
-* Node.js
-* Express.js or Next.js API routes
-* Prisma ORM
-* JWT Authentication
-* Nodemailer
+## Database
 
----
+- MongoDB
 
-# Database
+## Optional Services
 
-## Preferred:
-
-* PostgreSQL
-
-## Alternative:
-
-* MongoDB
-
----
-
-# Optional Services
-
-* Redis
-* Cloudinary
-* AWS S3
-* Docker
+- Redis
+- Cloudinary
+- AWS S3
+- Docker
 
 ---
 
 # Final Deliverables
 
-The finished platform should include:
+The completed project should include:
 
-* Premium responsive UI
-* Motion-enhanced user experience
-* Functional authentication system
-* Vehicle booking workflow
-* Admin dashboard
-* Email notification system
-* Secure APIs
-* Database integration
-* Error handling
-* Production-ready structure
+- Premium responsive UI
+- Smooth motion-based interactions
+- Secure authentication system
+- Vehicle booking workflow
+- Owner dashboard
+- RESTful backend APIs
+- Database integration
+- Proper error handling
+- Production-ready architecture
 
 ---
 
@@ -462,14 +582,13 @@ The finished platform should include:
 
 Include documentation for:
 
-* Folder structure
-* API architecture
-* Database schema
-* Environment variables
-* Deployment setup
-* Animation architecture
-* Authentication flow
-* State management
+- Folder structure
+- API architecture
+- Database schema
+- Environment variables
+- Deployment setup
+- Authentication flow
+- Animation system
 
 ---
 
@@ -477,11 +596,9 @@ Include documentation for:
 
 The project should be deployable on:
 
-* Vercel
-* Docker containers
+- Vercel
+- Render
+- Railway
+- Docker containers
 
-## Ensure:
-
-* Production optimization
-* Environment-based configuration
-* Scalable deployment setup
+---
