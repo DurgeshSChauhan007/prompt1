@@ -102,7 +102,7 @@ car-rental-app/
 │   ├── index.js                
 │   └── package.json
 │
-└── README.md
+
 ```
 
 # Database Models
