@@ -151,68 +151,68 @@ The API should be scalable, readable, and easy to extend.
 
 # Database Models
 
-The backend should use only three main database models.
+The platform uses only three core database models to keep the backend clean, scalable, and easy to maintain.
 
 ---
 
 # User Model
 
-Handles authentication and user account management.
+The User model is responsible for handling authentication, account management, and role-based access control across the platform.
 
 ## Fields
 
-- `id` — MongoDB ObjectId
-- `name` — User full name
-- `email` — Unique email address
-- `password` — Hashed password using bcrypt
-- `role` — user or owner
-- `image` — User profile image URL
-- `createdAt`
-- `updatedAt`
+- `id` — Unique MongoDB ObjectId
+- `name` — Full name of the user
+- `email` — Unique email address used for authentication
+- `password` — Securely hashed password using bcrypt
+- `role` — Defines whether the account is a `user` or an `owner`
+- `image` — Profile image URL
+- `createdAt` — Account creation timestamp
+- `updatedAt` — Last account update timestamp
 
 ---
 
 # Car Model
 
-Stores vehicle listing information.
+The Car model stores all vehicle listing information added by owners and used throughout the booking system.
 
 ## Fields
 
-- `id` — MongoDB ObjectId
-- `owner` — Reference to User model
-- `brand`
-- `model`
-- `image`
-- `year`
-- `category`
-- `seating_capacity`
-- `fuel_type`
-- `transmission`
-- `pricePerDay`
-- `location`
-- `description`
-- `isAvailable`
-- `createdAt`
-- `updatedAt`
+- `id` — Unique MongoDB ObjectId
+- `owner` — Reference to the User who listed the vehicle
+- `brand` — Vehicle manufacturer name
+- `model` — Vehicle model name
+- `image` — Vehicle image URL
+- `year` — Manufacturing year
+- `category` — Vehicle category such as SUV, Sedan, Sports, etc.
+- `seating_capacity` — Total seating capacity
+- `fuel_type` — Petrol, Diesel, Electric, or Hybrid
+- `transmission` — Automatic or Manual transmission type
+- `pricePerDay` — Rental price per day
+- `location` — Vehicle pickup location
+- `description` — Detailed vehicle information
+- `isAvailable` — Availability status of the vehicle
+- `createdAt` — Vehicle listing creation timestamp
+- `updatedAt` — Last vehicle update timestamp
 
 ---
 
 # Booking Model
 
-Handles rental reservations.
+The Booking model manages rental reservations between customers and vehicle owners.
 
 ## Fields
 
-- `id` — MongoDB ObjectId
-- `car` — Reference to Car model
-- `user` — Reference to User model
-- `owner` — Reference to User model
-- `pickupDate`
-- `returnDate`
-- `status` — pending, confirmed, cancelled
-- `price`
-- `createdAt`
-- `updatedAt`
+- `id` — Unique MongoDB ObjectId
+- `car` — Reference to the booked vehicle
+- `user` — Reference to the customer who made the booking
+- `owner` — Reference to the vehicle owner
+- `pickupDate` — Rental start date
+- `returnDate` — Rental return date
+- `status` — Booking status (`pending`, `confirmed`, or `cancelled`)
+- `price` — Total booking amount
+- `createdAt` — Booking creation timestamp
+- `updatedAt` — Last booking update timestamp
 
 ---
 
