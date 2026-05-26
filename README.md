@@ -80,38 +80,30 @@ The platform allows users to browse vehicles, check availability, book rentals, 
 # Project Structure
 
 ```bash
-car-rental-platform/
+car-rental-app/
 │
-├── client/
-│   ├── public/
+├── client/                     
 │   ├── src/
-│   │   ├── assets/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── layouts/
-│   │   ├── hooks/
-│   │   ├── context/
-│   │   ├── routes/
-│   │   ├── services/
-│   │   ├── utils/
-│   │   └── animations/
+│   │   ├── components/         
+│   │   ├── pages/             
+│   │   ├── context/            
+│   │   ├── assets/             
+│   │   ├── App.js              
+│   │   ├── index.js            
+│   │
+│   └── package.json
 │
-├── server/
-│   ├── config/
-│   ├── controllers/
-│   ├── middleware/
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   ├── utils/
-│   └── uploads/
+├── server/                    
+│   ├── controllers/           
+│   ├── routes/                 
+│   ├── models/                 
+│   ├── middleware/            
+│   ├── .env                    
+│   ├── index.js                
+│   └── package.json
 │
-├── README.md
-├── package.json
-└── .env
+└── README.md
 ```
-
----
 
 # Database Models
 
