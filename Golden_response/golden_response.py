@@ -471,4 +471,458 @@ export default function FullStackCarPlatform() {
 
     </div>
   );
-}'''
+}
+
+// Backend 
+
+import imagekit from "../configs/imageKit.js";
+import Booking from "../models/Booking.js";
+import Car from "../models/Car.js";
+import User from "../models/User.js";
+import fs from "fs";
+
+
+// API to Change Role of User
+export const changeRoleToOwner = async (req, res)=>{
+    try {
+        const {_id} = req.user;
+        await User.findByIdAndUpdate(_id, {role: "owner"})
+        res.json({success: true, message: "Now you can list cars"})
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message})
+    }
+}
+
+// API to List Car
+
+export const addCar = async (req, res)=>{
+    try {
+        const {_id} = req.user;
+        let car = JSON.parse(req.body.carData);
+        const imageFile = req.file;
+
+        // Upload Image to ImageKit
+        const fileBuffer = fs.readFileSync(imageFile.path)
+        const response = await imagekit.upload({
+            file: fileBuffer,
+            fileName: imageFile.originalname,
+            folder: '/cars'
+        })
+
+        // optimization through imagekit URL transformation
+        var optimizedImageUrl = imagekit.url({
+            path : response.filePath,
+            transformation : [
+                {width: '1280'}, // Width resizing
+                {quality: 'auto'}, // Auto compression
+                { format: 'webp' }  // Convert to modern format
+            ]
+        });
+
+        const image = optimizedImageUrl;
+        await Car.create({...car, owner: _id, image})
+
+        res.json({success: true, message: "Car Added"})
+
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message})
+    }
+}
+
+// API to List Owner Cars
+export const getOwnerCars = async (req, res)=>{
+    try {
+        const {_id} = req.user;
+        const cars = await Car.find({owner: _id })
+        res.json({success: true, cars})
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message})
+    }
+}
+
+// API to Toggle Car Availability
+export const toggleCarAvailability = async (req, res) =>{
+    try {
+        const {_id} = req.user;
+        const {carId} = req.body
+        const car = await Car.findById(carId)
+
+        // Checking is car belongs to the user
+        if(car.owner.toString() !== _id.toString()){
+            return res.json({ success: false, message: "Unauthorized" });
+        }
+
+        car.isAvaliable = !car.isAvaliable;
+        await car.save()
+
+        res.json({success: true, message: "Availability Toggled"})
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message})
+    }
+}
+
+// Api to delete a car
+export const deleteCar = async (req, res) =>{
+    try {
+        const {_id} = req.user;
+        const {carId} = req.body
+        const car = await Car.findById(carId)
+
+        // Checking is car belongs to the user
+        if(car.owner.toString() !== _id.toString()){
+            return res.json({ success: false, message: "Unauthorized" });
+        }
+
+        car.owner = null;
+        car.isAvaliable = false;
+
+        await car.save()
+
+        res.json({success: true, message: "Car Removed"})
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message})
+    }
+}
+
+// API to get Dashboard Data
+export const getDashboardData = async (req, res) =>{
+    try {
+        const { _id, role } = req.user;
+
+        if(role !== 'owner'){
+            return res.json({ success: false, message: "Unauthorized" });
+        }
+
+        const cars = await Car.find({owner: _id})
+        const bookings = await Booking.find({ owner: _id }).populate('car').sort({ createdAt: -1 });
+
+        const pendingBookings = await Booking.find({owner: _id, status: "pending" })
+        const completedBookings = await Booking.find({owner: _id, status: "confirmed" })
+
+        // Calculate monthlyRevenue from bookings where status is confirmed
+        const monthlyRevenue = bookings.slice().filter(booking => booking.status === 'confirmed').reduce((acc, booking)=> acc + booking.price, 0)
+
+        const dashboardData = {
+            totalCars: cars.length,
+            totalBookings: bookings.length,
+            pendingBookings: pendingBookings.length,
+            completedBookings: completedBookings.length,
+            recentBookings: bookings.slice(0,3),
+            monthlyRevenue
+        }
+
+        res.json({ success: true, dashboardData });
+
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message})
+    }
+}
+
+// API to update user image
+
+export const updateUserImage = async (req, res)=>{
+    try {
+        const { _id } = req.user;
+
+        const imageFile = req.file;
+
+        // Upload Image to ImageKit
+        const fileBuffer = fs.readFileSync(imageFile.path)
+        const response = await imagekit.upload({
+            file: fileBuffer,
+            fileName: imageFile.originalname,
+            folder: '/users'
+        })
+
+        // optimization through imagekit URL transformation
+        var optimizedImageUrl = imagekit.url({
+            path : response.filePath,
+            transformation : [
+                {width: '400'}, // Width resizing
+                {quality: 'auto'}, // Auto compression
+                { format: 'webp' }  // Convert to modern format
+            ]
+        });
+
+        const image = optimizedImageUrl;
+
+        await User.findByIdAndUpdate(_id, {image});
+        res.json({success: true, message: "Image Updated" })
+
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message})
+    }
+}   
+
+import User from "../models/User.js"
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import Car from "../models/Car.js";
+import connectDB from "../configs/db.js";
+
+// Generate JWT Token
+const generateToken = (userId)=>{
+    const payload = userId;
+    return jwt.sign(payload, process.env.JWT_SECRET)
+}
+
+// Register User
+export const registerUser = async (req, res)=>{
+    
+    try {
+
+        await connectDB();
+
+        const {name, email, password} = req.body
+
+        if(!name || !email || !password || password.length < 8){
+            return res.json({success: false, message: 'Fill all the fields'})
+        }
+
+        const userExists = await User.findOne({email})
+        if(userExists){
+            return res.json({success: false, message: 'User already exists'})
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10)
+        const user = await User.create({name, email, password: hashedPassword})
+        const token = generateToken(user._id.toString())
+        res.json({success: true, token})
+
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message})
+    }
+}
+
+// Login
+export const loginUser = async (req, res)=>{
+    try {
+
+        await connectDB();
+
+        const {email, password} = req.body
+        const user = await User.findOne({email})
+        if(!user){
+            return res.json({success: false, message: "User not found" })
+        }
+        const isMatch = await bcrypt.compare(password, user.password)
+        if(!isMatch){
+            return res.json({success: false, message: "Invalid Credentials" })
+        }
+        const token = generateToken(user._id.toString())
+        res.json({success: true, token})
+    } catch (error) {
+        res.json({success: false, message: error.message})
+    }
+}
+
+// Get User data using Token (JWT)
+export const getUserData = async (req, res) =>{
+    try {
+
+        await connectDB();
+        
+        const {user} = req;
+        res.json({success: true, user})
+    } catch (error) {
+        res.json({success: false, message: error.message})
+    }
+}
+
+// Get All Cars for the Frontend
+export const getCars = async (req, res) =>{
+    try {
+        const cars = await Car.find({isAvaliable: true})
+        res.json({success: true, cars})
+    } catch (error) {
+        res.json({success: false, message: error.message})
+    }
+}
+
+import User from "../models/User.js"
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import Car from "../models/Car.js";
+import connectDB from "../configs/db.js";
+
+// Generate JWT Token
+const generateToken = (userId)=>{
+    const payload = userId;
+    return jwt.sign(payload, process.env.JWT_SECRET)
+}
+
+// Register User
+export const registerUser = async (req, res)=>{
+    
+    try {
+
+        await connectDB();
+
+        const {name, email, password} = req.body
+
+        if(!name || !email || !password || password.length < 8){
+            return res.json({success: false, message: 'Fill all the fields'})
+        }
+
+        const userExists = await User.findOne({email})
+        if(userExists){
+            return res.json({success: false, message: 'User already exists'})
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10)
+        const user = await User.create({name, email, password: hashedPassword})
+        const token = generateToken(user._id.toString())
+        res.json({success: true, token})
+
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message})
+    }
+}
+
+// Login
+export const loginUser = async (req, res)=>{
+    try {
+
+        await connectDB();
+
+        const {email, password} = req.body
+        const user = await User.findOne({email})
+        if(!user){
+            return res.json({success: false, message: "User not found" })
+        }
+        const isMatch = await bcrypt.compare(password, user.password)
+        if(!isMatch){
+            return res.json({success: false, message: "Invalid Credentials" })
+        }
+        const token = generateToken(user._id.toString())
+        res.json({success: true, token})
+    } catch (error) {
+        res.json({success: false, message: error.message})
+    }
+}
+
+// Get User data using Token (JWT)
+export const getUserData = async (req, res) =>{
+    try {
+
+        await connectDB();
+        
+        const {user} = req;
+        res.json({success: true, user})
+    } catch (error) {
+        res.json({success: false, message: error.message})
+    }
+}
+
+// Get All Cars for the Frontend
+export const getCars = async (req, res) =>{
+    try {
+        const cars = await Car.find({isAvaliable: true})
+        res.json({success: true, cars})
+    } catch (error) {
+        res.json({success: false, message: error.message})
+    }
+}
+
+import jwt from "jsonwebtoken";
+import User from "../models/User.js";
+
+export const protect = async (req, res, next)=>{
+    const token = req.headers.authorization;
+    if(!token){
+        return res.json({success: false, message: "not authorized"})
+    }
+    try {
+        const userId = jwt.decode(token, process.env.JWT_SECRET)
+
+        if(!userId){
+            return res.json({success: false, message: "not authorized"})
+        }
+        req.user = await User.findById(userId).select("-password")
+        next();
+    } catch (error) {
+        return res.json({success: false, message: "not authorized"})
+    }
+}
+
+import multer from "multer";
+
+const upload = multer({storage: multer.diskStorage({})})
+
+export default upload
+
+import express from "express";
+import { changeBookingStatus, checkAvailabilityOfCar, createBooking, getOwnerBookings, getUserBookings } from "../controllers/bookingController.js";
+import { protect } from "../middleware/auth.js";
+
+const bookingRouter = express.Router();
+
+bookingRouter.post('/check-availability', checkAvailabilityOfCar)
+bookingRouter.post('/create', protect, createBooking)
+bookingRouter.get('/user', protect, getUserBookings)
+bookingRouter.get('/owner', protect, getOwnerBookings)
+bookingRouter.post('/change-status', protect, changeBookingStatus)
+
+export default bookingRouter;
+
+import express from "express";
+import { getCars, getUserData, loginUser, registerUser } from "../controllers/userController.js";
+import { protect } from "../middleware/auth.js";
+
+const userRouter = express.Router();
+
+userRouter.post('/register', registerUser)
+userRouter.post('/login', loginUser)
+userRouter.get('/data', protect, getUserData)
+userRouter.get('/cars', getCars)
+
+export default userRouter;  
+
+import express from "express";
+import { getCars, getUserData, loginUser, registerUser } from "../controllers/userController.js";
+import { protect } from "../middleware/auth.js";
+
+const userRouter = express.Router();
+
+userRouter.post('/register', registerUser)
+userRouter.post('/login', loginUser)
+userRouter.get('/data', protect, getUserData)
+userRouter.get('/cars', getCars)
+
+export default userRouter; 
+
+import express from "express";
+import "dotenv/config";
+import cors from "cors";
+import connectDB from "./configs/db.js";
+import userRouter from "./routes/userRoutes.js";
+import ownerRouter from "./routes/ownerRoutes.js";
+import bookingRouter from "./routes/bookingRoutes.js";'''
+
+
+'''// Initialize Express App
+const app = express()
+
+// Connect Database
+await connectDB()
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+app.get('/', (req, res)=> res.send("Server is running"))
+app.use('/api/user', userRouter)
+app.use('/api/owner', ownerRouter)
+app.use('/api/bookings', bookingRouter)
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, ()=> console.log(`Server running on port ${PORT}`))'''
