@@ -39,7 +39,7 @@ export const registerUser = async (req, res)=>{
     }
 }
 
-// Login User 
+// Login
 export const loginUser = async (req, res)=>{
     try {
 
@@ -57,7 +57,6 @@ export const loginUser = async (req, res)=>{
         const token = generateToken(user._id.toString())
         res.json({success: true, token})
     } catch (error) {
-        console.log(error.message);
         res.json({success: false, message: error.message})
     }
 }
@@ -71,7 +70,6 @@ export const getUserData = async (req, res) =>{
         const {user} = req;
         res.json({success: true, user})
     } catch (error) {
-        console.log(error.message);
         res.json({success: false, message: error.message})
     }
 }
@@ -82,7 +80,6 @@ export const getCars = async (req, res) =>{
         const cars = await Car.find({isAvaliable: true})
         res.json({success: true, cars})
     } catch (error) {
-        console.log(error.message);
         res.json({success: false, message: error.message})
     }
 }
